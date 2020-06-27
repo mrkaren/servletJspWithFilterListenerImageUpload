@@ -13,7 +13,10 @@
     User user = (User) session.getAttribute("user");
 %>
 Welcome <%=user.getName()%> <% if (user.getPictureUrl() != null) { %>
-<img src="/image?path=<%=user.getPictureUrl()%>" width="50"/> <%}%> <a href="/logout">logout</a> <br>
+<img src="/image?path=<%=user.getPictureUrl()%>" width="50"/> <%}%>
+
+<a href="/logout">logout</a> <br>
+
 <a href="/">Index</a> <br><br>
 
 Add Todo:
@@ -26,7 +29,7 @@ Add Todo:
 
 <ul>
     <% for (ToDo todo : todos) { %>
-    <li><%=todo.getTitle()%> - <%=todo.getStatus()%>
+    <li><a href="/todo?id=<%=todo.getId()%>"><%=todo.getTitle()%> </a>  - <%=todo.getStatus()%>
     </li>
     <% } %>
 </ul>

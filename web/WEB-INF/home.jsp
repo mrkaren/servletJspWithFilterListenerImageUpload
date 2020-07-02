@@ -1,5 +1,3 @@
-<%@ page import="model.ToDo" %>
-<%@ page import="java.util.List" %>
 <%@ page import="model.User" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
@@ -8,8 +6,6 @@
 </head>
 <body>
 <%
-
-    List<ToDo> todos = (List<ToDo>) request.getAttribute("todos");
     User user = (User) session.getAttribute("user");
 %>
 Welcome <%=user.getName()%> <% if (user.getPictureUrl() != null) { %>
@@ -18,20 +14,60 @@ Welcome <%=user.getName()%> <% if (user.getPictureUrl() != null) { %>
 <a href="/logout">logout</a> <br>
 
 <a href="/">Index</a> <br><br>
+<div id="info">
+
+</div>
+<div id="todolist">
+    Loading...
+</div>
 
 Add Todo:
-<form action="/addTodo" method="post">
+<form action="/addTodo" method="post" id="addTodo">
 
-    <input name="title" type="text"/><br>
-    <input name="deadline" type="date"/><br>
+    <input name="title" id="title" type="text"/><br>
+    <input name="deadline" id="deadline" type="date"/><br>
     <input type="submit" value="create">
 </form>
 
-<ul>
-    <% for (ToDo todo : todos) { %>
-    <li><a href="/todo?id=<%=todo.getId()%>"><%=todo.getTitle()%> </a>  - <%=todo.getStatus()%>
-    </li>
-    <% } %>
-</ul>
+
+<script src="/js/jquery-3.5.1.min.js" type="text/javascript"></script>
+<script>
+  $(document).ready(function () {
+
+    $("#addTodo").submit(function (e) {
+      e.preventDefault();
+      let title = $("#title").val();
+      let deadline = $("#deadline").val();
+      $.ajax({
+        url: "/addTodo?title=" + title + "&deadline=" + deadline,
+        method: "POST",
+        success: function (result) {
+          $("#info").html(result);
+          $("#title").val("");
+          $("#deadline").val("")
+        },
+        error: function () {
+          $("#info").html("there is problem with todo data.!");
+        }
+
+      });
+
+    })
+
+    let getTodoList = function () {
+      $.ajax({
+        url: "/todolist",
+        method: "GET",
+        success: function (result) {
+          $("#todolist").html(result);
+        }
+
+      });
+    };
+    getTodoList();
+    setInterval(getTodoList, 2000)
+
+  })
+</script>
 </body>
 </html>

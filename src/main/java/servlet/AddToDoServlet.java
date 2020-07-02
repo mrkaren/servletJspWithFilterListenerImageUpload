@@ -32,12 +32,9 @@ public class AddToDoServlet extends HttpServlet {
                 .status(ToDoStatus.TODO)
                 .build();
             toDoManager.create(todo);
-
+            resp.getWriter().write("Todo added successfully");
         } catch (ParseException e) {
-            e.printStackTrace();
+            throw new RuntimeException("error");
         }
-
-        req.setAttribute("inch", "uzem");
-
     }
 }

@@ -14,6 +14,7 @@ import java.util.List;
 @WebServlet(urlPatterns = "/todolist")
 public class ToDoListServlet extends HttpServlet {
 
+    //todoManager
     ToDoManager toDoManager = new ToDoManager();
 
     @Override

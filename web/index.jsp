@@ -59,7 +59,7 @@ Login:
 </form>
 <br>
 <br>
-<br>
+<div class="newDiv"></div>
 <p>new P tag</p>
 Register:
 <form action="/register" method="post" enctype="multipart/form-data">
